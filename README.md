@@ -4,6 +4,7 @@ A dockerfile for a container that provides a simple HTTP grading interface
 LICENSE: https://creativecommons.org/licenses/by-sa/4.0/legalcode
 CC-4.0-SA
 
+## Getting Started
 Also on hub.docker.com:
 
 To get running right away, use the pre-built image:
@@ -18,3 +19,11 @@ curl -F file=@input_image.png $(docker inspect -f '{{range .NetworkSettings.Netw
 ~~~~
 
 We can send png and jpg image, with any filename, specified as 'input_image.png' above.
+
+
+## Building and Installing directly
+
+To build, just run the following in the repo:
+~~~~
+docker build -t actdr .
+~~~~
