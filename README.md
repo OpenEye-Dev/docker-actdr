@@ -11,6 +11,7 @@ Author(s): [Tristan Swedish](www.tswedish.com)
 To get running right away, use the pre-built image:
 ~~~~
 docker pull tswedish/actdr
+docker run -d tswedish/actdr
 ~~~~
 
 Once the image is up and running we can send it an image using curl:
