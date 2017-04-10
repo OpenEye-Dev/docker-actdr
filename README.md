@@ -32,4 +32,4 @@ docker build -t actdr .
 
 ## Acknowledgements
 
-Thanks to the wonderful [tutorial](https://aimbrain.com/blog/serving-deep-learning-models-with-nginx-torch/) by [aimbrain](https://aimbrain.com). This repo borrows heavily from [actDR](https://github.com/OpenEye-Dev/actDR) with further integration/overlap planned for the future. actDR was used to generate a [production model](https://www.zenodo.org/record/495797/files/prod_model.t7) made available on [zenmodo](www.zenodo.org). Please cite this repository if you use this work in academic work.
+Thanks to the wonderful [tutorial](https://aimbrain.com/blog/serving-deep-learning-models-with-nginx-torch/) by [aimbrain](https://aimbrain.com). This repo borrows heavily from [actDR](https://github.com/OpenEye-Dev/actDR) with further integration/overlap planned for the future. actDR was used to generate a [production model](https://www.zenodo.org/record/495797) made available on [zenmodo](www.zenodo.org). Please cite this repository if you use this work in academic work.
