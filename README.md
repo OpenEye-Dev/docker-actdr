@@ -17,10 +17,12 @@ docker run -d tswedish/actdr
 Once the image is up and running we can send it an image using curl:
 
 ~~~~
-curl -F file=@input_image.png $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q)):8910/predict
+ACTDR_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q))
+INPUT_IMG=input_image.png
+curl -F file=@${INPUT_IMG} ${ACTDR_IP}:8910/predict
 ~~~~
 
-We can send png and jpg image, with any filename, specified as 'input_image.png' above. You should receive a JSON response with the prediction. If "success: false" in the returned JSON, something bad happened to the model, check that there is nothing wrong with the input file.
+We can send png and jpg image, with any filename, specified as ${INPUT_IMG} above to the container at ip ${ACTDR_IP}. You should receive a JSON response with the prediction. If "success: false" in the returned JSON, something bad happened to the model, check that there is nothing wrong with the input file.
 
 
 ## Building and Installing directly

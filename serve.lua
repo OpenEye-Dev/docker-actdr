@@ -1,12 +1,12 @@
 -- load the required lua models
 local torch = require("torch")
 local nn = require("nn")
-gm = require "graphicsmagick"
+local gm = require "graphicsmagick"
 local model = torch.load("prod_model.t7")
 local image = require("image")
 
 local img_size = 512
-local num_transforms = 10
+local num_transforms = 4
 
 local generateTransformer = function()
   -- generate a transform function based on some other stuff
@@ -42,17 +42,18 @@ function loadImg(file)
 	return img
 end
 
+local transformer = generateTransformer()
+
 function FeedForward(img)
 	local response = {}
 
-	local transformer = generateTransformer()
 	response["success"] = true
 
-	pred_img = torch.FloatTensor(num_transforms,3,img_size,img_size)	  
+	pred_img = torch.FloatTensor(num_transforms,3,img_size,img_size)
 	for i=1,num_transforms do
 	  pred_img[i] = transformer(img)
 	end
-	  
+
 	local out = model:forward(pred_img)
 	response["prediction"] = tostring(torch.mean(out)-1)
 	response["prediction_std"] = tostring(torch.std(out))
