@@ -32,20 +32,23 @@ end
 function loadImg(file)
 	local img = gm.Image()
 	local filestr = file:string()
-        local ok = pcall(img.fromString, img, filestr)
-        filestr = nil
-        if ok then
-          img = img:toTensor("float", "RGB", "DHW")
+  local ok = pcall(img.fromString, img, filestr)
+  local err = nil
+  filestr = nil
+  if ok then
+    img = img:toTensor("float", "RGB", "DHW")
 	else
-	  print("Failed to convert image file")
+    err = "Failed to convert image file"
+	  img = nil
 	end
-	return img
+	return img,err
 end
 
 local transformer = generateTransformer()
 
 function FeedForward(img)
 	local response = {}
+  local err = nil
 
 	response["success"] = true
 
@@ -58,5 +61,5 @@ function FeedForward(img)
 	response["prediction"] = tostring(torch.mean(out)-1)
 	response["prediction_std"] = tostring(torch.std(out))
 
-	return response
+	return response, err
 end

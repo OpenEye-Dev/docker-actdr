@@ -24,6 +24,23 @@ curl -F file=@${INPUT_IMG} ${ACTDR_IP}:8910/predict
 
 We can send png and jpg image, with any filename, specified as ${INPUT_IMG} above to the container at ip ${ACTDR_IP}. You should receive a JSON response with the prediction. If "success: false" in the returned JSON, something bad happened to the model, check that there is nothing wrong with the input file.
 
+Here is an example of using the python requests library to make a post request to the service. you may need to `pip install requests`. We access the environment variable set above, except this time we relay an example image from wikipedia. The following can be pasted into the python interpretor or run as a separate file.
+
+~~~~
+import requests
+import json
+from io import BytesIO
+import os
+url = "http://"+os.environ["ACTDR_IP"]+":8910/predict"
+norm_eye_url = "https://upload.wikimedia.org/wikipedia/commons/3/37/Fundus_photograph_of_normal_right_eye.jpg?download"
+norm_jpg = BytesIO(requests.get(norm_eye_url).content)
+pred = json.loads(requests.post(url,files={"file": ("norm.jpg", norm_jpg)}).content)
+prediction = float(pred["prediction"]) if pred["success"] else "Undetermined"
+std_prediction = float(pred["prediction_std"]) if pred["success"] else "Undetermined"
+print("\n  Retina health score [0-4, 0 is healthy] (std deviation): %0.02f (%0.02f)\n" % (prediction, std_prediction))
+
+~~~~
+
 
 ## Building and Installing directly
 
