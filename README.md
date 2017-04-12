@@ -40,8 +40,11 @@ std_prediction = float(pred["prediction_std"]) if pred["success"] else "Undeterm
 print("\n  Retina health score [0-4, 0 is healthy] (std deviation): %0.02f (%0.02f)\n" % (prediction, std_prediction))
 ~~~~
 
-This should return a
+This should print something like this:
 
+`  Retina health score [0-4, 0 is healthy] (std deviation): 0.01 (0.07)`
+
+Which indicates the "healthy retina" image example on Wikipedia is indeed healthy!
 
 ## Building and Installing directly
 
