@@ -12,19 +12,21 @@ To get running right away, use the pre-built image:
 ~~~~
 docker pull tswedish/actdr
 docker run -d tswedish/actdr
+export ACTDR_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -ql))
 ~~~~
 
 Once the image is up and running we can send it an image using curl:
 
 ~~~~
-export ACTDR_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -ql))
 export ACTDR_INPUT_IMG=input_image.png
-curl -F file=@${INPUT_IMG} ${ACTDR_IP}:8910/predict
+curl -F file=@${ACTDR_INPUT_IMG} ${ACTDR_IP}:8910/predict
 ~~~~
 
 We can send png and jpg image, with any filename, specified as ${INPUT_IMG} above to the container at ip ${ACTDR_IP}. You should receive a JSON response with the prediction. If "success: false" in the returned JSON, something bad happened to the model, check that there is nothing wrong with the input file.
 
-Here is an example of using the python requests library to make a post request to the service. you may need to `pip install requests`. We access the environment variable set above, except this time we relay an example image from wikipedia. The following can be pasted into the python interpretor or run as a separate file.
+We could also send the request using python:
+
+Here is an example of using the python requests library to make a post request to the service. you may need to `pip install requests`. We access the environment variable set above, except this time we relay an example "healthy" image from wikipedia. The following can be pasted into the python interpretor or run as a separate file.
 
 ~~~~
 import requests
