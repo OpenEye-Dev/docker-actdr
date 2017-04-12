@@ -17,8 +17,8 @@ docker run -d tswedish/actdr
 Once the image is up and running we can send it an image using curl:
 
 ~~~~
-ACTDR_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q))
-INPUT_IMG=input_image.png
+export ACTDR_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -ql))
+export ACTDR_INPUT_IMG=input_image.png
 curl -F file=@${INPUT_IMG} ${ACTDR_IP}:8910/predict
 ~~~~
 
@@ -38,8 +38,9 @@ pred = json.loads(requests.post(url,files={"file": ("norm.jpg", norm_jpg)}).cont
 prediction = float(pred["prediction"]) if pred["success"] else "Undetermined"
 std_prediction = float(pred["prediction_std"]) if pred["success"] else "Undetermined"
 print("\n  Retina health score [0-4, 0 is healthy] (std deviation): %0.02f (%0.02f)\n" % (prediction, std_prediction))
-
 ~~~~
+
+This should return a
 
 
 ## Building and Installing directly
