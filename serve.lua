@@ -50,7 +50,7 @@ function FeedForward(img)
 	local response = {}
   local err = nil
 
-	response["success"] = true
+	response["message"] = "OK"
 
 	pred_img = torch.FloatTensor(num_transforms,3,img_size,img_size)
 	for i=1,num_transforms do
@@ -58,8 +58,9 @@ function FeedForward(img)
 	end
 
 	local out = model:forward(pred_img)
-	response["prediction"] = tostring(torch.mean(out)-1)
-	response["prediction_std"] = tostring(torch.std(out))
+	response["grade_result"] = {}
+	response["grade_result"]["prediction"] = tostring(torch.mean(out)-1)
+	response["grade_result"]["prediction_std"] = tostring(torch.std(out))
 
 	return response, err
 end
