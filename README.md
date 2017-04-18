@@ -19,7 +19,7 @@ Once the image is up and running we can send it an image using curl:
 
 ~~~~
 export ACTDR_INPUT_IMG=input_image.png
-curl -F file=@${ACTDR_INPUT_IMG} ${ACTDR_IP}:8910/predict
+curl -F file=@${ACTDR_INPUT_IMG} ${ACTDR_IP}:8080/grade
 ~~~~
 
 We can send png and jpg image, with any filename, specified as ${INPUT_IMG} above to the container at ip ${ACTDR_IP}. You should receive a JSON response with the prediction. If "success: false" in the returned JSON, something bad happened to the model, check that there is nothing wrong with the input file.
@@ -33,12 +33,12 @@ import requests
 import json
 from io import BytesIO
 import os
-url = "http://"+os.environ["ACTDR_IP"]+":8910/predict"
+url = "http://"+os.environ["ACTDR_IP"]+":8080/grade"
 norm_eye_url = "https://upload.wikimedia.org/wikipedia/commons/3/37/Fundus_photograph_of_normal_right_eye.jpg?download"
 norm_jpg = BytesIO(requests.get(norm_eye_url).content)
 pred = json.loads(requests.post(url,files={"file": ("norm.jpg", norm_jpg)}).content)
-prediction = float(pred["prediction"]) if pred["success"] else "Undetermined"
-std_prediction = float(pred["prediction_std"]) if pred["success"] else "Undetermined"
+prediction = float(pred["grade_result"]["prediction"]) if pred["message"]=="OK" else "Undetermined"
+std_prediction = float(pred["grade_result"]["prediction_std"]) if pred["message"]=="OK" else "Undetermined"
 print("\n  Retina health score [0-4, 0 is healthy] (std deviation): %0.02f (%0.02f)\n" % (prediction, std_prediction))
 ~~~~
 
