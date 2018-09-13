@@ -8,14 +8,22 @@ Author(s): [Tristan Swedish](https://www.tswedish.com)
 
 ## Getting Started
 
-To get running right away, use the pre-built image:
+To get running right away, use the pre-built image (command line tested on macos 10.13, but should work on any 'nix):
 ~~~~
 docker pull tswedish/actdr
-docker run -d tswedish/actdr
-export ACTDR_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -ql))
+docker run -p 8080:8080 -d tswedish/actdr
+export ACTDR_IP=localhost
 ~~~~
 
-Once the image is up and running we can send it an image using curl:
+Note: we've bound the port `8080` to our host machine (`localhost`) with the `-p` flag. This can be bound to a different local port if you don't want to use `8080`!
+
+Check it's status with stats:
+
+`docker stats`
+
+Note: The hash next to the running container is used to stop it, below we call this `CONTAINER_HASH`.
+
+Once the docker container is up and running we can send it an image using curl:
 
 ~~~~
 export ACTDR_INPUT_IMG=input_image.png
@@ -48,12 +56,20 @@ This should print something like this:
 
 Which indicates the "healthy retina" image example on Wikipedia is indeed healthy!
 
+Kill the docker container:
+
+`docker stop CONTAINER_HASH`
+
 ## Building and Installing directly
 
 To build, run the following in the repo:
 ~~~~
 docker build -t actdr .
 ~~~~
+
+## Notes
+
+Docker seemed to change the way ports were exposed sometime around when I was developing this. I decided to leave the use of the `-p` flag above, which should work fine under most circumstances (since binding to the host computer simplifies the interface).
 
 ## Acknowledgements
 
