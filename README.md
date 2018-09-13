@@ -6,11 +6,22 @@ CC-4.0-SA
 
 Author(s): [Tristan Swedish](https://www.tswedish.com)
 
-## Getting Started
+## Pre-Installation Steps
+
+Make sure you've installed docker. See here for help [Install Docker Community Edition](https://docs.docker.com/install). This should install everything so the `docker` command line tool is available on your system.
+
+## Installation
 
 To get running right away, use the pre-built image (command line tested on macos 10.13, but should work on any 'nix):
 ~~~~
 docker pull tswedish/actdr
+~~~~
+
+Installation done!
+
+## Getting Started
+
+~~~~
 docker run -p 8080:8080 -d tswedish/actdr
 export ACTDR_IP=localhost
 ~~~~
